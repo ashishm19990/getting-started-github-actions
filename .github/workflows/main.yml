@@ -49,18 +49,40 @@ jobs:
     steps:
 
       - name: Step 1 - Log the pre-build disc space
-        run: ls
+        run: df
         
       - name: step 2 - Checkout the main GitHub branch
-        uses: actions/checkout@v2 
+        uses: actions/checkout@v3
         
-      - name: Step 3 - Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with: 
-          java-version: 1.8
+      - name: Step 3 - Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
 
       - name: Step 4 - Build your your Jakarta web app with Maven
         run: echo mvn -B package --file pom.xml
           
-      - name: Step 5 - List Ubuntu Environment Variables
+      - name: Step 5 Build the Native Android app
+        run: |
+          echo Here is the Android SDK Root
+          echo $ANDROID_SDK_ROOT
+      
+      - name: Step 6 Run your Selenium Tests
+        run: |
+          echo The SELENIUM_JAR_PATH
+          echo $SELENIUM_JAR_PATH
+      
+      - name: Step 7 Log Build Tool Versions
+        run: |
+           git --version
+           mvn --version
+           ant -version
+           gradle --version
+
+      - name: Step 8 - Log the post-build disc space
+        run: df
+
+      - name: Step 9 - List Ubuntu Environment Variables
         run: env
+      
